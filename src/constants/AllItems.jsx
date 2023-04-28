@@ -25,3 +25,22 @@ export const allItems = [
   { id: "24", title: "Video Games" },
   { id: "25", title: "Women's Fashion" },
 ];
+
+
+export const secondHeaderItems = [
+  
+  { id: "1", title: "Fresh" },
+  { id: "2", title: "Amazon miniTV" },
+  { id: "3", title: "Sell" },
+  { id: "4", title: "Amazon Pay" },
+  { id: "5", title: "Buy Again" },
+  { id: "6", title: "Gift Cards" },
+  { id: "7", title: "Amazon Basics" },
+  { id: "8", title: "Gift Ideas" },
+  { id: "9", title: "Basics" },
+  { id: "10", title: "Coupons" },
+  { id: "11", title: "Subscibe & Save" },
+  // {id:"9", title:"Amazon Basics"},
+  // {id:"10", title:"Home Improvement"},
+  // {id:"11", title:"Baby"},
+];

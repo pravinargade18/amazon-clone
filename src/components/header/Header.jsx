@@ -5,6 +5,7 @@ import {GrSearch} from 'react-icons/gr'
 import { useState } from "react";
 import { allItems } from "../../constants/AllItems";
 import { IoMdCart } from "react-icons/io";
+import HeaderBottom from "./HeaderBottom";
 
 const Header = () => {
     const [showDrowpdown, setShowDrowpdown] = useState(false);
@@ -13,7 +14,7 @@ const Header = () => {
     }
   return (
     <div>
-      <div className="w-full bg-amazon_blue text-white px-4 py-3 flex items-center gap-4">
+      <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">
         <div className="headerHover">
           <img className="w-24 mt-2" src={logo} alt="logo" />
         </div>
@@ -103,7 +104,9 @@ const Header = () => {
           </p>
         </div>
       </div>
+        <HeaderBottom/>
     </div>
+    
   );
 }
 
