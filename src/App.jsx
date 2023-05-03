@@ -1,15 +1,31 @@
-import Header from "./components/header/Header"
-import Footer from "./components/footer/Footer"
-import Banner from "./components/Home/Banner"
+import {
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Layout />,
+      children: [{ index:true, element: <Home /> }],
+    },
+  ]
+  // createRoutesFromElements(
+  //   <Route path="/" element={<Layout />}>
+  //     <Route index element={<Home />}></Route>
+  //   </Route>
+  // )
+);
 
 function App() {
   return (
     <div className="font-bodyFont">
-      <Header/>
-      <Banner/>
-      <Footer/>
+      <RouterProvider router={router}></RouterProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
