@@ -1,17 +1,17 @@
 import { logo } from "../../assets";
-import {GoLocation} from 'react-icons/go'
-import {IoMdArrowDropdown} from 'react-icons/io'
-import {GrSearch} from 'react-icons/gr'
+import { GoLocation } from "react-icons/go";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { GrSearch } from "react-icons/gr";
 import { useState } from "react";
-import { allItems } from "../../constants/AllItems";
 import { IoMdCart } from "react-icons/io";
 import HeaderBottom from "./HeaderBottom";
+import { allItems } from "../../constants";
 
 const Header = () => {
-    const [showDrowpdown, setShowDrowpdown] = useState(false);
-    const dropdownHandler=()=>{
-        setShowDrowpdown((prevState)=>!prevState);
-    }
+  const [showDrowpdown, setShowDrowpdown] = useState(false);
+  const dropdownHandler = () => {
+    setShowDrowpdown((prevState) => !prevState);
+  };
   return (
     <div>
       <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">
@@ -98,16 +98,18 @@ const Header = () => {
         {/* orders end */}
         {/* cart start  */}
         <div className="flex  items-center justify-center headerHover relative">
-          <IoMdCart className="h-7 w-7"/>
+          <IoMdCart className="h-7 w-7" />
           <p className="text-xs font-semibold mt-3 text-whiteText">
-            Cart <span className="absolute text-xs -top-1 left-6 p-1 h-4 bg-[#f3a847] flex justify-center items-center text-amazon_blue rounded-full ">0</span>
+            Cart{" "}
+            <span className="absolute text-xs -top-1 left-6 p-1 h-4 bg-[#f3a847] flex justify-center items-center text-amazon_blue rounded-full ">
+              0
+            </span>
           </p>
         </div>
       </div>
-        <HeaderBottom/>
+      <HeaderBottom />
     </div>
-    
   );
-}
+};
 
 export default Header;
