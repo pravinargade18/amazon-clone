@@ -6,18 +6,25 @@ import { useState } from "react";
 import { IoMdCart } from "react-icons/io";
 import HeaderBottom from "./HeaderBottom";
 import { allItems } from "../../constants";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showDrowpdown, setShowDrowpdown] = useState(false);
+
+  const {totalQuantity}=useSelector(state=>state.amazon);
+  
   const dropdownHandler = () => {
     setShowDrowpdown((prevState) => !prevState);
   };
   return (
     <div className="w-full sticky top-0 z-50">
       <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">
-        <div className="headerHover ">
-          <img className="w-24 mt-2" src={logo} alt="logo" />
-        </div>
+        <Link to="/">
+          <div className="headerHover ">
+            <img className="w-24 mt-2" src={logo} alt="logo" />
+          </div>
+        </Link>
         {/* image end here */}
         {/* deliver start here  */}
 
@@ -97,15 +104,17 @@ const Header = () => {
 
         {/* orders end */}
         {/* cart start  */}
-        <div className="flex  items-center justify-center headerHover relative">
-          <IoMdCart className="h-7 w-7" />
-          <p className="text-xs font-semibold mt-3 text-whiteText">
-            Cart{" "}
-            <span className="absolute text-xs -top-1 left-6 p-1 h-4 bg-[#f3a847] flex justify-center items-center text-amazon_blue rounded-full ">
-              0
-            </span>
-          </p>
-        </div>
+        <Link to='/cart'>
+          <div className="flex  items-center justify-center headerHover relative">
+            <IoMdCart className="h-7 w-7" />
+            <p className="text-xs font-semibold mt-3 text-whiteText">
+              Cart{" "}
+              <span className="absolute text-xs -top-1 left-6 p-1 h-4 bg-[#f3a847] flex justify-center items-center text-amazon_blue rounded-full ">
+                {totalQuantity}
+              </span>
+            </p>
+          </div>
+        </Link>
       </div>
       <HeaderBottom />
     </div>

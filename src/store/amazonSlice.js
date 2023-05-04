@@ -28,9 +28,26 @@ const amazonSlice = createSlice({
         existingProduct.totalPrice=existingProduct.totalPrice+newProduct.price;
       }
     },
+    removeItemFromCart:(state,action)=>{
+        const newId=action.payload;
+        const itemToDelete=state.products.find(item=>item.id===newId);
+        state.totalQuantity--;
+        if(itemToDelete.quantity===1){
+            state.products=state.products.filter(item=>item.id!==newId);
+        }
+        else{
+            itemToDelete.quantity--;
+            itemToDelete.totalPrice=itemToDelete.totalPrice-itemToDelete.price;
+        }
+
+    },
+    resetCart:(state)=>{
+        state.products=[];
+        state.totalQuantity=0;
+    }
   },
 });
 
-export const { addToCart } = amazonSlice.actions;
+export const { addToCart, removeItemFromCart, resetCart } = amazonSlice.actions;
 
 export default amazonSlice.reducer;
