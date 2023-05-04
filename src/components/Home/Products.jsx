@@ -6,9 +6,12 @@ import { GoGitCompare } from "react-icons/go";
 import { IoMdCart } from "react-icons/io";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { MdOutlineFavorite } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/amazonSlice";
 
 const Products = () => {
     const [productData,setProductData]=useState([]);
+    const dispatch = useDispatch();
     
     useEffect(()=>{
         const getProducts=async ()=>{
@@ -17,6 +20,18 @@ const Products = () => {
         }
         getProducts();
     },[])
+
+    const addToCartHandler=(item)=>{
+        dispatch(addToCart({
+          id:item.id,
+          title:item.title,
+          description:item.description,
+          price:item.price,
+          category:item.category,
+          image:item.image,
+          quantity:1
+        }))
+    }
     
   return (
     <div className="max-w-screen-2xl mx-auto grid grid-cols-4 gap-10 px-4">
@@ -57,7 +72,6 @@ const Products = () => {
               <li className="productLi">
                 Add to Wishlist
                 <span>
-                  
                   <MdOutlineFavorite />
                 </span>
               </li>
@@ -85,7 +99,23 @@ const Products = () => {
                 <AiFillStar />
               </div>
             </div>
-            <button className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 hover:from-yellow-300 hover:to-yellow-500 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3">
+            <button
+              onClick={() => addToCartHandler(item)}
+              // onClick={() =>
+              //   dispatch(
+              //     addToCart({
+              //       id: item.id,
+              //       title: item.title,
+              //       description: item.description,
+              //       price: item.price,
+              //       category: item.category,
+              //       image: item.image,
+              //       quantity: 1,
+              //     })
+              //   )
+              // }
+              className="w-full font-titleFont font-medium text-base bg-gradient-to-tr from-yellow-400 to-yellow-200 hover:from-yellow-300 hover:to-yellow-500 border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3"
+            >
               Add to Cart
             </button>
           </div>
