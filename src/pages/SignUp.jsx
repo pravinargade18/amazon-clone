@@ -1,14 +1,15 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { darkLogo } from "../assets/index";
-
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+// import { app } from "../firebase.config";
 
 const Registration = () => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailExisted, setEmailExisted] = useState("");
 
   // Error Message start
   const [enteredNameError, setEnteredNameError] = useState("");
@@ -43,13 +44,14 @@ const Registration = () => {
   };
 
   // Submit button start
-  const registrationHandler = (e) => {
+  const registrationHandler = async (e) => {
     e.preventDefault();
     if (!enteredName) {
       setEnteredNameError("Enter your name");
     }
     if (!enteredMail) {
       setEnteredMailError("Enter your email");
+      setEmailExisted("");
     } else {
       if (!validateEmailHandler(enteredMail)) {
         setEnteredMailError("Enter a valid email");
@@ -80,11 +82,32 @@ const Registration = () => {
       confirmPassword === enteredPassword
     ) {
       // =========== Firebase Registration End here ===============
-      setEnteredName("");
-      setEnteredMail("");
-      setEnteredPassword("");
-      setConfirmPassword("");
-      setConfirmPasswordError("");
+      try {
+        const auth = getAuth();
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          enteredMail,
+          enteredPassword
+        );
+
+        updateProfile(auth.currentUser, {
+          displayName: enteredName,
+          photoURL:
+            "https://oliver-andersen.se/wp-content/uploads/2018/03/cropped-Profile-Picture-Round-Color.png",
+        });
+        console.log(user.user);
+
+        // clear input boxes
+        setEnteredName("");
+        setEnteredMail("");
+        setEnteredPassword("");
+        setConfirmPassword("");
+        setConfirmPasswordError("");
+      } catch (error) {
+        if(error.code.includes("auth/email-already-in-use")){
+                setEmailExisted('Email already exists, Try with another email!');
+        }
+      }
     }
   };
   return (
@@ -134,13 +157,21 @@ const Registration = () => {
                     {enteredMailError}
                   </p>
                 )}
+                {emailExisted && (
+                  <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
+                    <span className="italic font-titleFont font-extrabold text-base">
+                      !
+                    </span>
+                    {emailExisted}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium">Password</p>
                 <input
                   value={enteredPassword}
                   onChange={passwordHandler}
-                  type="enteredPassword"
+                  type="password"
                   className="w-full rounded-md py-1 border border-zinc-400 px-2 text-base  outline-none focus-within:border-[#e77600] focus-within:shadow-amazonInput duration-100"
                 />
                 {enteredPasswordError && (
@@ -157,7 +188,7 @@ const Registration = () => {
                 <input
                   onChange={confirmPasswordHandler}
                   value={confirmPassword}
-                  type="enteredPassword"
+                  type="password"
                   className="w-full rounded-md py-1 border border-zinc-400 px-2 text-base  outline-none focus-within:border-[#e77600] focus-within:shadow-amazonInput duration-100"
                 />
                 {confirmPasswordError && (

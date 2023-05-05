@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import "slick-carousel/slick/slick.css"; 
 
 import App from './App.jsx'
+// import firebaseConfig from './firebase.config.js';
 import './index.css'
 import { Provider } from 'react-redux';
 import store from './store/store.js';
