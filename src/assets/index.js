@@ -6,6 +6,7 @@ import bannerImgFour from "./banner/bannerImgFour.jpg";
 import bannerImgFive from "./banner/bannerImgFive.jpg";
 import india from "./india.webp"
 import emptyCart from "./emptyCart.png"
+import darkLogo from './darkLogo.png'
 
 export {
   logo,
@@ -15,5 +16,6 @@ export {
   bannerImgFour,
   bannerImgFive,
   india,
-  emptyCart
+  emptyCart,
+  darkLogo,
 };
