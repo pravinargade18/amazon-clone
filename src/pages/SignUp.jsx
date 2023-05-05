@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
 import { darkLogo } from "../assets/index";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { app } from "../firebase.config";
+import { RotatingLines } from "react-loader-spinner";
+import {motion} from 'framer-motion'
 // import { app } from "../firebase.config";
 
 const Registration = () => {
+    const navigate=useNavigate();
   const [enteredName, setEnteredName] = useState("");
   const [enteredMail, setEnteredMail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [emailExisted, setEmailExisted] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Error Message start
   const [enteredNameError, setEnteredNameError] = useState("");
@@ -26,6 +32,7 @@ const Registration = () => {
   const emailHandler = (e) => {
     setEnteredMail(e.target.value);
     setEnteredMailError("");
+    setEmailExisted("");
   };
   const passwordHandler = (e) => {
     setEnteredPassword(e.target.value);
@@ -83,7 +90,8 @@ const Registration = () => {
     ) {
       // =========== Firebase Registration End here ===============
       try {
-        const auth = getAuth();
+        setIsLoading(true);
+        const auth = getAuth(app);
         const user = await createUserWithEmailAndPassword(
           auth,
           enteredMail,
@@ -95,17 +103,26 @@ const Registration = () => {
           photoURL:
             "https://oliver-andersen.se/wp-content/uploads/2018/03/cropped-Profile-Picture-Round-Color.png",
         });
-        console.log(user.user);
+        // console.log(user.user);
+
+        setIsLoading(false);
+        console.log('after',isLoading);
+        setSuccessMessage('Account created successfully!')
+        setTimeout(() =>{
+            navigate('/sign-in')
+        },2000);
 
         // clear input boxes
         setEnteredName("");
         setEnteredMail("");
         setEnteredPassword("");
         setConfirmPassword("");
+        setEmailExisted("");
         setConfirmPasswordError("");
       } catch (error) {
         if(error.code.includes("auth/email-already-in-use")){
                 setEmailExisted('Email already exists, Try with another email!');
+                setIsLoading(false);
         }
       }
     }
@@ -209,6 +226,27 @@ const Registration = () => {
               >
                 Continue
               </button>
+              {isLoading && (
+                <div className="flex justify-center">
+                <RotatingLines
+                  strokeColor="#febd69"
+                  strokeWidth="4"
+                  animationDuration="0.75"
+                  width="80"
+                  visible={true}
+                />
+                </div> 
+              )}
+              {successMessage && (
+                <div >
+                    <motion.p 
+                    initial={{y:10,opacity:0}}
+                    animate={{y:0, opacity:1}}
+                    transition={{duration:0.5}}
+                    className="text-base font-titleFont font-semibold text-green-500 border-[1px] border-green-500 px-2 text-center"
+                    >{successMessage}</motion.p>
+                </div> 
+              )}
             </div>
             <p className="text-xs text-black leading-4 mt-4">
               By Continuing, you agree to Amazon&apos;s{" "}
