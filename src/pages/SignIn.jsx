@@ -1,13 +1,22 @@
 import  { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { darkLogo } from "../assets/index";
 import {IoMdArrowDropright} from 'react-icons/io'
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "../firebase.config";
+import {motion} from 'framer-motion'
+import { RotatingLines } from "react-loader-spinner";
 
 const Signin = () => {
+     const navigate = useNavigate();
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredEmailError, setEnteredEmailError] = useState("");
   const [enteredPasswordError, setEnteredPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [userEmailError, setUserEmailError] = useState('');
+  const [userPasswordError, setUserPasswordError] = useState('');
   // Firebase Error
 
   // Loading State start here
@@ -15,12 +24,14 @@ const Signin = () => {
   const emailHandler = (e) => {
     setEnteredEmail(e.target.value);
     setEnteredEmailError("");
+    setUserEmailError("");
   };
   const passwordHandler = (e) => {
     setEnteredPassword(e.target.value);
     setEnteredPasswordError("");
+    setUserPasswordError("");
   };
-  const LoginHandler = (e) => {
+  const LoginHandler = async(e) => {
     e.preventDefault();
     if (!enteredEmail) {
       setEnteredEmailError("Enter your email");
@@ -29,7 +40,30 @@ const Signin = () => {
       setEnteredPasswordError("Enter your password");
     }
     if (enteredEmail && enteredPassword) {
+       try {
+         setIsLoading(true);
+           const auth=getAuth(app);
+           const user= await signInWithEmailAndPassword(auth,enteredEmail,enteredPassword);
+           setIsLoading(false);
+           setSuccessMessage("Welcome back...Logged in successfully!");
+           setTimeout(() => {
+             navigate("/");
+           }, 2000);
+        //    console.log(user)
+      } catch (error) {
+        console.log(error.code);
+            if (error.code.includes("auth/invalid-email")) {
+              setUserEmailError("Invalid email!");
+              setIsLoading(false);
+            }
+            if (error.code.includes("auth/wrong-password")) {
+              setUserPasswordError("Wrong password, try again!");
+              setIsLoading(false);
+            }
+       } 
+    
     //   console.log(enteredEmail, enteredPassword);
+   
       setEnteredEmail("");
       setEnteredPassword("");
     }
@@ -64,6 +98,14 @@ const Signin = () => {
                     {enteredEmailError}
                   </p>
                 )}
+                {userEmailError && (
+                  <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
+                    <span className="italic font-titleFont font-extrabold text-base">
+                      !
+                    </span>
+                    {userEmailError}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium">Password</p>
@@ -71,7 +113,7 @@ const Signin = () => {
                   onChange={passwordHandler}
                   value={enteredPassword}
                   className="w-full rounded-md lowercase py-1 border border-zinc-400 px-2 text-base  outline-none focus-within:border-[#e77600] focus-within:shadow-amazonInput duration-100"
-                  type="enteredPassword"
+                  type="password"
                 />
                 {enteredPasswordError && (
                   <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
@@ -81,6 +123,14 @@ const Signin = () => {
                     {enteredPasswordError}
                   </p>
                 )}
+                {userPasswordError && (
+                  <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
+                    <span className="italic font-titleFont font-extrabold text-base">
+                      !
+                    </span>
+                    {userPasswordError}
+                  </p>
+                )}
               </div>
               <button
                 onClick={LoginHandler}
@@ -88,6 +138,29 @@ const Signin = () => {
               >
                 Continue
               </button>
+              {isLoading && (
+                <div className="flex justify-center">
+                  <RotatingLines
+                    strokeColor="#febd69"
+                    strokeWidth="4"
+                    animationDuration="0.75"
+                    width="80"
+                    visible={true}
+                  />
+                </div>
+              )}
+              {successMessage && (
+                <div>
+                  <motion.p
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-base font-titleFont font-semibold text-green-500 border-[1px] border-green-500 px-2 text-center"
+                  >
+                    {successMessage}
+                  </motion.p>
+                </div>
+              )}
             </div>
             <p className="text-xs text-black leading-4 mt-4">
               By Continuing, you agree to Amazon&apos;s{" "}

@@ -106,7 +106,6 @@ const Registration = () => {
         // console.log(user.user);
 
         setIsLoading(false);
-        console.log('after',isLoading);
         setSuccessMessage('Account created successfully!')
         setTimeout(() =>{
             navigate('/sign-in')
