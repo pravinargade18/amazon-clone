@@ -1,5 +1,5 @@
 import HeroBanner from '../components/hero/HeroBanner';
-import Products from '../components/home/Products';
+import Products from '../components/hero/Products';
 const Home = () => {
   return (
     <>
