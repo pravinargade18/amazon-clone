@@ -9,11 +9,15 @@ const authSlice=createSlice({
          setUserInfo:(state,action)=>{
             state.userInfo=action.payload;
 
-         }   
+         }  ,
+         
+         userLogOut:(state)=>{
+            state.userInfo = { id: "", username: "", email: "", image: "" };
+         }
     }
 
 })
 
-export const {setUserInfo}=authSlice.actions;
+export const {setUserInfo,userLogOut}=authSlice.actions;
 
 export default authSlice.reducer;

@@ -47,7 +47,6 @@ const Signin = () => {
          setIsLoading(true);
            const auth=getAuth(app);
            const user= await signInWithEmailAndPassword(auth,enteredEmail,enteredPassword);
-           console.log(user.user)
            dispatch(
              setUserInfo({
                id: user.user.uid,

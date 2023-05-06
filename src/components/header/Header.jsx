@@ -7,10 +7,14 @@ import { useState } from "react";
 import { IoMdCart } from "react-icons/io";
 import HeaderBottom from "./HeaderBottom";
 import { allItems } from "../../constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { userLogOut } from "../../store/authSlice";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "../../firebase.config";
 
 const Header = () => {
+  const dispatch=useDispatch();
   const [showDrowpdown, setShowDrowpdown] = useState(false);
   const userInfo=useSelector(state=>state.auth.userInfo);
   const {totalQuantity}=useSelector(state=>state.amazon);
@@ -18,6 +22,16 @@ const Header = () => {
   const dropdownHandler = () => {
     setShowDrowpdown((prevState) => !prevState);
   };
+
+  const logOutHandler=async ()=>{
+    try {
+      const auth=getAuth(app);
+      await signOut(auth);
+    } catch (error) {
+      console.log('err in logout');
+    }
+    dispatch(userLogOut());
+  }
   const name =
     userInfo.username.split(" ")[0].charAt(0).toUpperCase() +
     userInfo.username.slice(1);
@@ -126,7 +140,7 @@ const Header = () => {
           </div>
         </Link>
         {userInfo && (
-          <div className="flex flex-col justify-center items-center headerHover relative">
+          <div className="flex flex-col justify-center items-center headerHover relative" onClick={logOutHandler}>
             <MdOutlineLogout  />
             <p className="hidden mdl:inline-flex text-xs font-semibold text-whiteText">
               Log out
