@@ -11,12 +11,14 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showDrowpdown, setShowDrowpdown] = useState(false);
-
+  const {username}=useSelector(state=>state.auth.userInfo);
   const {totalQuantity}=useSelector(state=>state.amazon);
   
   const dropdownHandler = () => {
     setShowDrowpdown((prevState) => !prevState);
   };
+  const name =
+    username.split(" ")[0].charAt(0).toUpperCase() + username.slice(1);
   return (
     <div className="w-full sticky top-0 z-50">
       <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">
@@ -84,7 +86,12 @@ const Header = () => {
 
         {/* signin start */}
         <div className="flex flex-col items-start justify-center headerHover">
-          <p className=" text-xs text-lightText font-light">Hello, sign in</p>
+          {username ? (
+            
+            <p className=" text-sm text-gray-100 font-medium">welcome, {name}</p>
+          ) : (
+            <p className=" text-xs text-lightText font-light">Hello, sign in</p>
+          )}
           <p className="flex text-sm font-semibold -mt-1 text-whiteText items-center justify-center">
             Accounts & Lists{" "}
             <span>
@@ -104,7 +111,7 @@ const Header = () => {
 
         {/* orders end */}
         {/* cart start  */}
-        <Link to='/cart'>
+        <Link to="/cart">
           <div className="flex  items-center justify-center headerHover relative">
             <IoMdCart className="h-7 w-7" />
             <p className="text-xs font-semibold mt-3 text-whiteText">

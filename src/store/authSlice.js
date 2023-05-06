@@ -5,11 +5,14 @@ const authSlice=createSlice({
     name:'user',
     initialState:{userInfo:null},
     reducers:{
+         setUserInfo:(state,action)=>{
+            state.userInfo=action.payload;
 
+         }   
     }
 
 })
 
-export const {}=authSlice.actions;
+export const {setUserInfo}=authSlice.actions;
 
-export default authSlice;
+export default authSlice.reducer;

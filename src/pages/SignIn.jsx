@@ -6,8 +6,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase.config";
 import {motion} from 'framer-motion'
 import { RotatingLines } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../store/authSlice";
 
 const Signin = () => {
+  const dispatch=useDispatch();
      const navigate = useNavigate();
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -44,6 +47,15 @@ const Signin = () => {
          setIsLoading(true);
            const auth=getAuth(app);
            const user= await signInWithEmailAndPassword(auth,enteredEmail,enteredPassword);
+           console.log(user.user)
+           dispatch(
+             setUserInfo({
+               id: user.user.uid,
+               username: user.user.displayName,
+               image: user.user.photoURL,
+               email: user.user.email,
+             })
+           );
            setIsLoading(false);
            setSuccessMessage("Welcome back...Logged in successfully!");
            setTimeout(() => {
