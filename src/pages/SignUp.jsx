@@ -101,7 +101,7 @@ const Registration = () => {
         updateProfile(auth.currentUser, {
           displayName: enteredName,
           photoURL:
-            "https://oliver-andersen.se/wp-content/uploads/2018/03/cropped-Profile-Picture-Round-Color.png",
+            "https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg",
         });
         // console.log(user.user);
 

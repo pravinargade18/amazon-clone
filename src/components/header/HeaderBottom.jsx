@@ -5,8 +5,10 @@ import { RiAccountCircleFill } from "react-icons/ri";
 import { GrClose } from "react-icons/gr";
 import SideBarContent from "./SideBarContent";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const HeaderBottom = () => {
+  const userInfo=useSelector(state=>state.auth.userInfo);
   const ref = useRef();
   const [showSideBar, setShowSideBar] = useState(false);
 
@@ -16,7 +18,7 @@ const HeaderBottom = () => {
   const hideSideBarHandler = () => {
     setShowSideBar(false);
   };
-
+  const name=userInfo.username.split(' ')[0].charAt(0).toUpperCase() + userInfo.username.slice(1);
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
       if (e.target.contains(ref.current)) {
@@ -55,9 +57,12 @@ const HeaderBottom = () => {
               className=" w-[350px] h-full bg-white transition-all  duration-500"
             >
               <div className="w-full bg-amazon_light text-white py-[12.5px] px-6 flex items-center gap-2">
-                <RiAccountCircleFill className="w-6 h-6" />
+                {userInfo ? (
+                    <img src={userInfo.image} alt="userImage"  className="w-10 h-10 rounded-full" />
+                ):
+                (<RiAccountCircleFill className="w-6 h-6" />)}
                 <h3 className="font font-titleFont font-semibold text-lg tracking-[1px]">
-                  Hello, Sign in
+                  Hello, {name}
                 </h3>
               </div>
               <SideBarContent

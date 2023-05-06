@@ -11,14 +11,15 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [showDrowpdown, setShowDrowpdown] = useState(false);
-  const {username}=useSelector(state=>state.auth.userInfo);
+  const userInfo=useSelector(state=>state.auth.userInfo);
   const {totalQuantity}=useSelector(state=>state.amazon);
   
   const dropdownHandler = () => {
     setShowDrowpdown((prevState) => !prevState);
   };
   const name =
-    username.split(" ")[0].charAt(0).toUpperCase() + username.slice(1);
+    userInfo.username.split(" ")[0].charAt(0).toUpperCase() +
+    userInfo.username.slice(1);
   return (
     <div className="w-full sticky top-0 z-50">
       <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">
@@ -86,7 +87,7 @@ const Header = () => {
 
         {/* signin start */}
         <div className="flex flex-col items-start justify-center headerHover">
-          {username ? (
+          {userInfo.username ? (
             
             <p className=" text-sm text-gray-100 font-medium">welcome, {name}</p>
           ) : (
