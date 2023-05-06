@@ -8,13 +8,14 @@ import { IoMdCart } from "react-icons/io";
 import HeaderBottom from "./HeaderBottom";
 import { allItems } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userLogOut } from "../../store/authSlice";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../../firebase.config";
 
 const Header = () => {
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   const [showDrowpdown, setShowDrowpdown] = useState(false);
   const userInfo=useSelector(state=>state.auth.userInfo);
   const {totalQuantity}=useSelector(state=>state.amazon);
@@ -22,6 +23,12 @@ const Header = () => {
   const dropdownHandler = () => {
     setShowDrowpdown((prevState) => !prevState);
   };
+
+  const navigateHandler=()=>{
+    if(!userInfo.username){
+      navigate('/sign-in');
+    }
+  }
 
   const logOutHandler=async ()=>{
     try {
@@ -101,7 +108,7 @@ const Header = () => {
         {/* input end */}
 
         {/* signin start */}
-        <div className="flex flex-col items-start justify-center headerHover">
+        <div className="flex flex-col items-start justify-center headerHover" onClick={navigateHandler}>
           {userInfo.username ? (
             <p className=" text-sm text-gray-100 font-medium">
               welcome, {name}
@@ -139,7 +146,7 @@ const Header = () => {
             </p>
           </div>
         </Link>
-        {userInfo && (
+        {userInfo.username && (
           <div className="flex flex-col justify-center items-center headerHover relative" onClick={logOutHandler}>
             <MdOutlineLogout  />
             <p className="hidden mdl:inline-flex text-xs font-semibold text-whiteText">
