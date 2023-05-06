@@ -1,6 +1,7 @@
 import { logo } from "../../assets";
 import { GoLocation } from "react-icons/go";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { MdOutlineLogout } from "react-icons/md";
 import { GrSearch } from "react-icons/gr";
 import { useState } from "react";
 import { IoMdCart } from "react-icons/io";
@@ -88,8 +89,9 @@ const Header = () => {
         {/* signin start */}
         <div className="flex flex-col items-start justify-center headerHover">
           {userInfo.username ? (
-            
-            <p className=" text-sm text-gray-100 font-medium">welcome, {name}</p>
+            <p className=" text-sm text-gray-100 font-medium">
+              welcome, {name}
+            </p>
           ) : (
             <p className=" text-xs text-lightText font-light">Hello, sign in</p>
           )}
@@ -123,7 +125,16 @@ const Header = () => {
             </p>
           </div>
         </Link>
+        {userInfo && (
+          <div className="flex flex-col justify-center items-center headerHover relative">
+            <MdOutlineLogout  />
+            <p className="hidden mdl:inline-flex text-xs font-semibold text-whiteText">
+              Log out
+            </p>
+          </div>
+        )}
       </div>
+
       <HeaderBottom />
     </div>
   );

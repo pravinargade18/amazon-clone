@@ -57,12 +57,12 @@ const HeaderBottom = () => {
               className=" w-[350px] h-full bg-white transition-all  duration-500"
             >
               <div className="w-full bg-amazon_light text-white py-[12.5px] px-6 flex items-center gap-2">
-                {userInfo ? (
+                {userInfo?.image ? (
                     <img src={userInfo.image} alt="userImage"  className="w-10 h-10 rounded-full" />
                 ):
                 (<RiAccountCircleFill className="w-6 h-6" />)}
                 <h3 className="font font-titleFont font-semibold text-lg tracking-[1px]">
-                  Hello, {name}
+                  Hello, {name ? name: 'Sign in' }
                 </h3>
               </div>
               <SideBarContent
