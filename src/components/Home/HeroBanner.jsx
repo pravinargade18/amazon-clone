@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Slider from "react-slick";
 import {
   bannerImgOne,
@@ -8,7 +8,7 @@ import {
   bannerImgFive,
 } from "../../assets/index";
 
-const Banner = () => {
+const HeroBanner = () => {
   const [dotActive, setDotActive] = useState(0);
   const settings = {
     dots: true,
@@ -27,7 +27,7 @@ const Banner = () => {
           top: "70%",
           left: "0",
           right: "0",
-          margin:"0 auto",
+          margin: "0 auto",
           transform: "translate(-50% -50%)",
           width: "210px",
         }}
@@ -106,4 +106,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default HeroBanner;
