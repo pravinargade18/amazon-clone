@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate,  } from "react-router-dom";
 import { darkLogo } from "../assets/index";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
-import { app } from "../firebase.config";
+import { app, db } from "../firebase.config";
 import { RotatingLines } from "react-loader-spinner";
 import {motion} from 'framer-motion'
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 // import { app } from "../firebase.config";
 
 const Registration = () => {
@@ -92,7 +93,7 @@ const Registration = () => {
       try {
         setIsLoading(true);
         const auth = getAuth(app);
-        const user = await createUserWithEmailAndPassword(
+        const {user} = await createUserWithEmailAndPassword(
           auth,
           enteredMail,
           enteredPassword
@@ -105,10 +106,16 @@ const Registration = () => {
         });
         // console.log(user.user);
 
+        const userInfo={name:enteredName, email:enteredMail,password:enteredPassword};
+        delete userInfo.password;
+
+        userInfo.timestamp=serverTimestamp();
+        await setDoc(doc(db, "users", user.uid), userInfo);
+
         setIsLoading(false);
         setSuccessMessage('Account created successfully!')
         setTimeout(() =>{
-            navigate('/sign-in')
+            navigate('/sign-in');
         },2000);
 
         // clear input boxes
