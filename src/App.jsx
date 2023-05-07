@@ -5,6 +5,7 @@ import Cart from "./pages/Cart";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { SkeletonTheme } from "react-loading-skeleton";
+import PrivateRoute from "./pages/PrivateRoute";
 
 const router = createBrowserRouter(
   [
@@ -13,7 +14,12 @@ const router = createBrowserRouter(
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
-        { path: "/cart", element: <Cart /> },
+
+        {
+          path: "/cart",
+          element: <PrivateRoute/>,
+          children: [{ path: "/cart", element: <Cart /> }],
+        },
       ],
     },
     { path: "/sign-in", element: <SignIn /> },
