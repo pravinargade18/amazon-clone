@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const router = createBrowserRouter(
   [
@@ -27,9 +28,11 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <div className="font-bodyFont bg-gray-100">
-      <RouterProvider router={router}></RouterProvider>
-    </div>
+    <SkeletonTheme baseColor="#ebebeb" highlightColor="#f5f5f5">
+      <div className="font-bodyFont bg-gray-100">
+        <RouterProvider router={router}></RouterProvider>
+      </div>
+    </SkeletonTheme>
   );
 }
 
