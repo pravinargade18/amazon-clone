@@ -39,9 +39,10 @@ const Header = () => {
     }
     dispatch(userLogOut());
   }
-  const name =
-    userInfo.username.split(" ")[0].charAt(0).toUpperCase() +
-    userInfo.username.slice(1);
+    const name =
+      userInfo.username.split(" ")[0].charAt(0).toUpperCase() +
+      userInfo.username.split(" ")[0].slice(1);
+
   return (
     <div className="w-full sticky top-0 z-50">
       <div className="w-full bg-amazon_blue text-white px-4 py-2 flex items-center gap-4">

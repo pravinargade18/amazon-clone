@@ -6,11 +6,10 @@ const authSlice=createSlice({
     name:'user',
     initialState:initialState,
     reducers:{
-         setUserInfo:(state,action)=>{
+         setUserInfo:(state,action)=>{    
             state.userInfo=action.payload;
 
          }  ,
-         
          userLogOut:(state)=>{
             state.userInfo = { id: "", username: "", email: "", image: "" };
          }
