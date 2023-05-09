@@ -59,7 +59,7 @@ const Signin = () => {
            setSuccessMessage("Welcome back...Logged in successfully!");
            setTimeout(() => {
              navigate("/");
-           }, 2000);
+           }, 1000);
         //    console.log(user)
       } catch (error) {
         console.log(error.code);
